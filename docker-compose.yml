@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  rabbitmq:
+    image: rabbitmq:4.0.7-management  # Folosim imaginea oficială RabbitMQ 4.0.7 cu UI de management
+    container_name: rabbitmq
+    restart: always
+    ports:
+      - "5672:5672"   # Port pentru mesagerie
+      - "15672:15672" # Port pentru UI de management
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD}
+    volumes:
+      - ./config/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf:ro
+      - ./config/definitions.json:/etc/rabbitmq/definitions.json:ro
+      - ./data:/var/lib/rabbitmq
+      - ./logs:/var/log/rabbitmq
+
+volumes:
+  rabbitmq_data:
+  rabbitmq_logs:
+
